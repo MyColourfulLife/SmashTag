@@ -23,18 +23,22 @@ class TweetTableViewController: UITableViewController {
             title = searchText
             seachText.text = searchText
             seachText.resignFirstResponder()
+            lastTwitterRequest = nil
         }
     }
     private var lastTwitterRequest:Twitter.Request?
     private func searchForTweet(){
-        if let request = twitterRequest() {
+        if let request = lastTwitterRequest?.newer ?? twitterRequest() {
             lastTwitterRequest = request
             request.fetchTweets { [weak self] newTweets in
                 if self?.lastTwitterRequest == request {
                     DispatchQueue.main.async {
                         self?.tweets.insert(newTweets, at: 0)
                         self?.tableView?.insertSections([0], with: .fade)
+                        self?.refreshControl?.endRefreshing()
                     }
+                }else {
+                    self?.refreshControl?.endRefreshing()
                 }
             }
         }
@@ -47,6 +51,9 @@ class TweetTableViewController: UITableViewController {
         return nil
     }
     
+    @IBAction func refreshAction(_ sender: Any) {
+        searchForTweet()
+    }
     
     
     override func viewDidLoad() {
@@ -78,6 +85,9 @@ class TweetTableViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "\(tweets.count-section)"
+    }
 
 }
 

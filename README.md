@@ -28,3 +28,9 @@
 tableView.estimatedRowHeight = tableView.rowHeight// 预估行高和storyborad中设置一致
 tableView.rowHeight = UITableView.automaticDimension//自动计算行高
 ```
+
+#### 支持下拉刷新
+- 勾选UITableViewController的刷新属性为enable
+- 为新增的UIRefreshController配置刷新文本等刷新样式
+- 为新增的UIRefreshController指定刷新事件
+- 在适当的地方结束刷新事件
