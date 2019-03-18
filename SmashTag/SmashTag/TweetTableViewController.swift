@@ -26,6 +26,12 @@ class TweetTableViewController: UITableViewController {
             lastTwitterRequest = nil
         }
     }
+    
+    func insertTweets(_ newTweets:[Twitter.Tweet]){
+        self.tweets.insert(newTweets, at: 0)
+        self.tableView?.insertSections([0], with: .fade)
+    }
+    
     private var lastTwitterRequest:Twitter.Request?
     private func searchForTweet(){
         if let request = lastTwitterRequest?.newer ?? twitterRequest() {
@@ -33,8 +39,7 @@ class TweetTableViewController: UITableViewController {
             request.fetchTweets { [weak self] newTweets in
                 if self?.lastTwitterRequest == request {
                     DispatchQueue.main.async {
-                        self?.tweets.insert(newTweets, at: 0)
-                        self?.tableView?.insertSections([0], with: .fade)
+                        self?.insertTweets(newTweets)
                         self?.refreshControl?.endRefreshing()
                     }
                 }else {
