@@ -34,3 +34,4 @@ tableView.rowHeight = UITableView.automaticDimension//自动计算行高
 - 为新增的UIRefreshController配置刷新文本等刷新样式
 - 为新增的UIRefreshController指定刷新事件
 - 在适当的地方结束刷新事件
+- 使用coreData
